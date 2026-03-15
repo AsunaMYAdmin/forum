@@ -18,7 +18,6 @@ public class ProfileExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ExceptionsDTO(
                         pex.getMessage(),
-                        pex.getStackTrace(),
                         LocalDateTime.now()
                 )
         );
@@ -29,7 +28,6 @@ public class ProfileExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ExceptionsDTO(
                         ex.getMessage(),
-                        ex.getStackTrace(),
                         LocalDateTime.now()
                 )
         );
@@ -39,7 +37,6 @@ public class ProfileExceptionHandler {
     public ResponseEntity<ExceptionsDTO> handleException(AlreadyHaveThisStatusException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionsDTO(
                 ex.getMessage(),
-                ex.getStackTrace(),
                 LocalDateTime.now()
         ));
     }
