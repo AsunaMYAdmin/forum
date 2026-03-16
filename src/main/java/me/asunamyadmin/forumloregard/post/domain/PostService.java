@@ -7,6 +7,8 @@ import me.asunamyadmin.forumloregard.post.exception.PostNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -16,6 +18,13 @@ public class PostService {
     public PostDTO getPostById(int id) {
         PostEntity entity = repository.findById(id).orElseThrow(PostNotFoundException::new);
         return mapper.entityToPostDTO(entity);
+    }
+
+    public List<PostDTO> getAllPosts() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::entityToPostDTO)
+                .toList();
     }
 
     @Transactional

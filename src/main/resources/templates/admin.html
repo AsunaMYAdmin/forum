@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель — Loregard Форум</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+  <div th:replace="~{fragments/header :: head-css}"></div>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+</div>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page">
+
+  <div class="admin-header">
+    <div class="breadcrumb">
+      <a th:href="@{/forum}" class="breadcrumb-link">ФОРУМ</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">ПАНЕЛЬ УПРАВЛЕНИЯ</span>
+    </div>
+    <h1 class="admin-title">Панель управления</h1>
+    <p class="admin-subtitle">Только для хранителей Loregard</p>
+  </div>
+
+  <!-- FLASH MESSAGES -->
+  <div th:if="${successMessage}" class="alert alert--success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert--error" th:text="${errorMessage}"></div>
+
+  <div class="admin-grid">
+
+    <!-- ═══ СОЗДАТЬ КАТЕГОРИЮ ═══ -->
+    <div class="admin-card">
+      <div class="card-header">
+        <span class="card-icon">📂</span>
+        <div>
+          <div class="card-title">Новая категория</div>
+          <div class="card-desc">Добавить раздел на форум</div>
+        </div>
+      </div>
+      <form th:action="@{/category/create}" method="post" class="admin-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <div class="form-group">
+          <label class="form-label">Название</label>
+          <input type="text" name="name" class="form-input" placeholder="Например: Объявления" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Описание</label>
+          <input type="text" name="description" class="form-input" placeholder="Краткое описание раздела">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Иконка</label>
+            <input type="text" name="icon" class="form-input form-input--small" placeholder="📜" maxlength="2">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Порядок</label>
+            <input type="number" name="sortOrder" class="form-input form-input--small" placeholder="1" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Минимальная роль</label>
+          <select name="minRole" class="form-select">
+            <option value="USER">USER — все игроки</option>
+            <option value="ADMIN">ADMIN — только администрация</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Создать категорию</button>
+      </form>
+    </div>
+
+    <!-- ═══ СОЗДАТЬ ТЕМУ ═══ -->
+    <div class="admin-card">
+      <div class="card-header">
+        <span class="card-icon">📝</span>
+        <div>
+          <div class="card-title">Новая тема</div>
+          <div class="card-desc">Создать тему в категории</div>
+        </div>
+      </div>
+      <form th:action="@{/topic/create}" method="post" class="admin-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <div class="form-group">
+          <label class="form-label">Название темы</label>
+          <input type="text" name="title" class="form-input" placeholder="Название темы" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Категория</label>
+          <select name="categoryID" class="form-select" required>
+            <option value="" disabled selected>Выберите категорию</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}">Категория</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Первое сообщение</label>
+          <textarea name="content" class="form-textarea"
+                    placeholder="Текст первого поста в теме..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Создать тему</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ═══ УПРАВЛЕНИЕ КАТЕГОРИЯМИ ═══ -->
+  <div class="admin-section">
+    <div class="section-header">
+      <span class="section-icon">⚙️</span>
+      <h2 class="section-title">Управление категориями</h2>
+    </div>
+
+    <div th:if="${#lists.isEmpty(categories)}" class="empty-state">
+      Категорий пока нет.
+    </div>
+
+    <div class="manage-list">
+      <div th:each="cat : ${categories}" class="manage-item">
+        <div class="manage-item-left">
+          <span class="manage-icon" th:text="${cat.icon}">📜</span>
+          <div>
+            <div class="manage-name" th:text="${cat.name}">Название</div>
+            <div class="manage-meta" th:text="${cat.topicCount} + ' тем · порядок: ' + ${cat.sortOrder}">0 тем</div>
+          </div>
+        </div>
+        <div class="manage-actions">
+          <!-- Переименовать -->
+          <form th:action="@{/category/rename}" method="post" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="id" th:value="${cat.id}">
+            <input type="text" name="newName" class="inline-input"
+                   th:placeholder="${cat.name}" required>
+            <button type="submit" class="btn-action btn-action--edit">Переим.</button>
+          </form>
+          <!-- Удалить -->
+          <form th:action="@{/category/delete}" method="post"
+                onsubmit="return confirm('Удалить категорию и все темы в ней?')">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="id" th:value="${cat.id}">
+            <button type="submit" class="btn-action btn-action--delete">Удалить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ УПРАВЛЕНИЕ ТЕМАМИ ═══ -->
+  <div class="admin-section">
+    <div class="section-header">
+      <span class="section-icon">📋</span>
+      <h2 class="section-title">Управление темами</h2>
+    </div>
+
+    <div th:if="${#lists.isEmpty(topics)}" class="empty-state">
+      Тем пока нет.
+    </div>
+
+    <div class="manage-list">
+      <div th:each="topic : ${topics}" class="manage-item">
+        <div class="manage-item-left">
+          <div>
+            <div class="manage-name">
+              <a th:href="@{/forum/topic/{id}(id=${topic.id})}"
+                 class="manage-link"
+                 th:text="${topic.title}">Название темы</a>
+              <span th:if="${topic.isPinned}" class="mini-badge mini-badge--pin">📌</span>
+              <span th:if="${topic.isClosed}" class="mini-badge mini-badge--closed">🔒</span>
+            </div>
+            <div class="manage-meta"
+                 th:text="${topic.categoryName} + ' · ' + ${topic.postCount} + ' ответов'">
+              Категория · 0 ответов
+            </div>
+          </div>
+        </div>
+        <div class="manage-actions">
+          <!-- Закрепить/открепить -->
+          <form th:action="@{/topic/pin/{id}(id=${topic.id})}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="pin" th:value="${!topic.isPinned}">
+            <button type="submit" class="btn-action btn-action--pin"
+                    th:text="${topic.isPinned} ? 'Открепить' : 'Закрепить'">Закрепить</button>
+          </form>
+          <!-- Закрыть/открыть -->
+          <form th:action="@{/topic/close/{id}(id=${topic.id})}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="close" th:value="${!topic.isClosed}">
+            <button type="submit" class="btn-action btn-action--close"
+                    th:text="${topic.isClosed} ? 'Открыть' : 'Закрыть'">Закрыть</button>
+          </form>
+          <!-- Удалить -->
+          <form th:action="@{/topic/{id}(id=${topic.id})}" method="post"
+                onsubmit="return confirm('Удалить тему и все посты в ней?')">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn-action btn-action--delete">Удалить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
+
+<head th:fragment="head-css">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <title></title>
+</head>
+
+<header th:fragment="header" class="site-header">
+  <div class="header-inner">
+
+    <!-- LOGO -->
+    <a th:href="@{/forum}" class="header-logo">
+      <span class="logo-sys">FORUM</span>
+      <span class="logo-sep">/</span>
+      <span class="logo-lg">LOREGARD</span>
+    </a>
+
+    <!-- NAV -->
+    <nav class="header-nav">
+      <a th:href="@{/forum}" class="nav-link">Главная</a>
+      <a th:href="@{/forum/topics}" class="nav-link">Темы</a>
+      <a th:href="@{/forum/topic/rules}" class="nav-link nav-link--rules">
+        <span class="rules-dot"></span>
+        Правила
+      </a>
+    </nav>
+
+    <!-- RIGHT -->
+    <div class="header-right">
+      <!-- Кнопка на основной сайт -->
+      <a href="https://loregard.ru" target="_blank" class="btn-main-site">
+        <span>LOREGARD</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+
+      <!-- Войти / Профиль -->
+      <div sec:authorize="isAnonymous()">
+        <a th:href="@{/oauth2/authorization/loregard}" class="btn-login">
+          <span>⚡</span>
+          Войти на форум
+        </a>
+      </div>
+
+      <div sec:authorize="isAuthenticated()" class="header-user">
+        <div class="user-avatar">
+          <span th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">A</span>
+        </div>
+        <span class="user-name" th:text="${#authentication.name}">Игрок</span>
+        <a th:href="@{/logout}" class="btn-logout">Выйти</a>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+</html>

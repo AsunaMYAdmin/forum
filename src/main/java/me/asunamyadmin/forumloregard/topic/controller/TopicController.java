@@ -26,31 +26,31 @@ public class TopicController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTopic(@PathVariable int id) {
         topicService.deleteTopic(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/title/{id}")
-    public ResponseEntity<Void> updateTopic(@PathVariable int id, @RequestBody String newTitle) {
+    public ResponseEntity<Void> updateTopicTitle(@PathVariable int id, @RequestBody String newTitle) {
         topicService.changeTitle(id, newTitle);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/category/{id}")
-    public ResponseEntity<Void> updateTopic(@PathVariable int id, @RequestParam Integer categoryID) {
+    public ResponseEntity<Void> updateTopicCategory(@PathVariable int id, @RequestParam Integer categoryID) {
         topicService.changeCategory(id, categoryID);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{/id}/pin")
+    @PatchMapping("/{id}/pin")
     public ResponseEntity<Void> updateTopicPin(@PathVariable int id, @RequestParam boolean pin) {
         topicService.setPinCategory(id, pin);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{/id}/close")
+    @PatchMapping("/{id}/close")
     public ResponseEntity<Void> updateTopicClose(@PathVariable int id, @RequestParam boolean close) {
         topicService.setCloseCategory(id, close);
         return ResponseEntity.ok().build();

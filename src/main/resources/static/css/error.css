@@ -1,0 +1,131 @@
+.bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
+.bg-grid {
+    position:absolute;inset:0;
+    background-image:linear-gradient(rgba(224,120,32,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(224,120,32,0.04) 1px,transparent 1px);
+    background-size:60px 60px;
+    animation:gridShimmer 8s ease infinite;
+}
+@keyframes gridShimmer{0%,100%{opacity:.5}50%{opacity:1}}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);}
+.orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(224,120,32,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:orbPulse 6s ease infinite;}
+.orb-2{width:300px;height:300px;background:radial-gradient(circle,rgba(184,134,11,0.07) 0%,transparent 70%);bottom:-100px;right:-80px;animation:orbFloat 20s linear infinite;}
+@keyframes orbPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
+@keyframes orbFloat{0%{transform:translate(0,0)}50%{transform:translate(-30px,30px)}100%{transform:translate(0,0)}}
+
+.rune-particle{position:absolute;animation:runeFloat linear infinite;user-select:none;pointer-events:none;}
+@keyframes runeFloat{0%{transform:translateY(100vh) rotate(0deg);opacity:0}5%{opacity:1}95%{opacity:.5}100%{transform:translateY(-100px) rotate(360deg);opacity:0}}
+
+/* ERROR PAGE */
+.error-page {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+}
+
+.error-code {
+    font-family: 'Bebas Neue', 'Cinzel', serif;
+    font-size: clamp(120px, 20vw, 200px);
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(224,120,32,0.25);
+    letter-spacing: -4px;
+    margin-bottom: -20px;
+    animation: fadeUp 0.8s ease both;
+    user-select: none;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.error-rune {
+    font-size: 28px;
+    color: rgba(224,120,32,0.3);
+    letter-spacing: 12px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.1s ease both;
+    opacity: 0;
+}
+
+.error-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(24px, 5vw, 40px);
+    font-weight: 700;
+    color: #2a1f14;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.8s 0.2s ease both;
+    opacity: 0;
+}
+
+.error-desc {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    color: #9a8070;
+    font-style: italic;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+    opacity: 0;
+}
+
+.error-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.8s 0.4s ease both;
+    opacity: 0;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #e07820, #c86010);
+    color: white;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 14px 32px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-home::before {
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.15) 50%,transparent 60%);
+    transform:translateX(-100%);transition:transform 0.4s;
+}
+.btn-home:hover::before{transform:translateX(100%);}
+.btn-home:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(224,120,32,0.4); }
+
+.btn-main {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #9a8070;
+    text-decoration: none;
+    border: 1px solid #e8ddd0;
+    padding: 14px 28px;
+    transition: all 0.2s;
+}
+.btn-main:hover { border-color: #e07820; color: #e07820; }
+
+@media (max-width: 500px) {
+    .error-actions { flex-direction: column; width: 100%; }
+    .btn-home, .btn-main { width: 100%; justify-content: center; }
+}

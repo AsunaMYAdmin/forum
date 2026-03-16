@@ -1,0 +1,56 @@
+.site-footer {
+    border-top: 1px solid #e8ddd0;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    margin-top: 80px;
+}
+
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e07820;
+    letter-spacing: 2px;
+}
+
+.footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #9a8070;
+    letter-spacing: 1px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-link {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    color: #9a8070;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-link:hover { color: #e07820; }
+
+@media (max-width: 600px) {
+    .footer-inner { flex-direction: column; text-align: center; }
+}

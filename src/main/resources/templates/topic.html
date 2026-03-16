@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${topic.title + ' — Loregard Форум'}">Тема — Loregard</title>
+    <link rel="stylesheet" th:href="@{/css/topic.css}">
+    <div th:replace="~{fragments/header :: head-css}"></div>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-canvas">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+</div>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page">
+
+    <!-- BREADCRUMB + TITLE -->
+    <div class="topic-header">
+        <div class="breadcrumb">
+            <a th:href="@{/forum}" class="breadcrumb-link">ФОРУМ</a>
+            <span class="breadcrumb-sep">/</span>
+            <span th:text="${topic.categoryName}">Категория</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current" th:text="${topic.title}">Название темы</span>
+        </div>
+
+        <div class="topic-title-row">
+            <h1 class="topic-title" th:text="${topic.title}">Название темы</h1>
+            <div class="topic-badges">
+                <span th:if="${topic.isPinned}" class="badge badge--pinned">📌 ЗАКРЕПЛЕНО</span>
+                <span th:if="${topic.isClosed}" class="badge badge--closed">🔒 ЗАКРЫТО</span>
+            </div>
+        </div>
+
+        <div class="topic-meta">
+            <span>Автор: <strong th:text="${topic.authorName}">Автор</strong></span>
+            <span th:text="${#temporals.format(topic.createdAt, 'd MMMM yyyy')}">дата</span>
+            <span th:text="${topic.postCount} + ' ответов'">0 ответов</span>
+        </div>
+    </div>
+
+    <!-- POSTS -->
+    <div class="posts">
+
+        <div th:if="${#lists.isEmpty(posts)}" class="empty-posts">
+            Пока никто не ответил. Будь первым!
+        </div>
+
+        <div th:each="post, iterStat : ${posts}" class="post">
+
+            <!-- AUTHOR SIDEBAR -->
+            <div class="post-author">
+                <div class="post-avatar">
+                    <span th:text="${#strings.substring(post.authorName, 0, 1).toUpperCase()}">A</span>
+                </div>
+                <div class="post-username" th:text="${post.authorName}">Игрок</div>
+                <div th:if="${post.authorClass != null}" class="post-class" th:text="${post.authorClass}">Класс</div>
+                <div th:if="${post.authorGuild != null}" class="post-guild" th:text="${post.authorGuild}">Гильдия</div>
+                <div th:if="${post.authorTitle != null}" class="post-title-badge" th:text="${post.authorTitle}">Титул</div>
+                <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="post-admin-badge">ADMIN</div>
+            </div>
+
+            <!-- POST BODY -->
+            <div class="post-body">
+                <div class="post-header">
+                    <span class="post-date" th:text="${#temporals.format(post.createdAt, 'd MMM yyyy, HH:mm')}">дата</span>
+                    <span class="post-num" th:text="'#' + ${iterStat.count}">#1</span>
+                </div>
+
+                <div class="post-text" th:text="${post.content}">
+                    Текст сообщения...
+                </div>
+
+                <!-- ACTIONS (только для admin) -->
+                <div class="post-footer" sec:authorize="hasRole('ADMIN')">
+                    <form th:action="@{/topic/post/{id}(id=${post.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить сообщение?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button type="submit" class="post-action post-action--delete">Удалить</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" th:if="${totalPages > 1}">
+        <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=0)}"
+           th:classappend="${currentPage == 0} ? 'page-btn--active'"
+           class="page-btn">«</a>
+
+        <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+           th:href="@{/forum/topic/{id}(id=${topic.id}, page=${i})}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'page-btn--active'"
+           class="page-btn">1</a>
+
+        <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=${totalPages - 1})}"
+           th:classappend="${currentPage == totalPages - 1} ? 'page-btn--active'"
+           class="page-btn">»</a>
+    </div>
+
+    <!-- REPLY FORM (скрыта если тема закрыта или не авторизован) -->
+    <div th:if="${!topic.isClosed}" sec:authorize="isAuthenticated()" class="reply-form">
+        <h3 class="reply-title">Написать ответ</h3>
+        <form th:action="@{/topic/post}" method="post">
+            <input type="hidden" name="topicID" th:value="${topic.id}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <textarea name="content"
+                      class="reply-textarea"
+                      placeholder="Поделитесь своими мыслями, герой..."
+                      rows="5"
+                      required></textarea>
+            <button type="submit" class="reply-submit">Отправить</button>
+        </form>
+    </div>
+
+    <!-- Сообщение если тема закрыта -->
+    <div th:if="${topic.isClosed}" class="topic-closed-notice">
+        🔒 Тема закрыта. Новые ответы не принимаются.
+    </div>
+
+    <!-- Сообщение если не авторизован -->
+    <div th:if="${!topic.isClosed}" sec:authorize="isAnonymous()" class="reply-login-notice">
+        <a th:href="@{/oauth2/authorization/loregard}" class="btn-login-inline">⚡ Войдите</a>
+        чтобы написать ответ.
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    const runes = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+    const canvas = document.querySelector('.bg-canvas');
+    for (let i = 0; i < 10; i++) {
+        const el = document.createElement('div');
+        el.className = 'rune-particle';
+        el.textContent = runes[Math.floor(Math.random() * runes.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (12 + Math.random() * 14) + 'px';
+        el.style.animationDuration = (14 + Math.random() * 20) + 's';
+        el.style.animationDelay = (-Math.random() * 30) + 's';
+        canvas.appendChild(el);
+    }
+</script>
+
+</body>
+</html>

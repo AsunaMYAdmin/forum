@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/topic/post")
@@ -18,21 +20,26 @@ public class PostController {
         return ResponseEntity.ok().body(postService.getPostById(id));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
+        return ResponseEntity.ok().body(postService.getAllPosts());
+    }
+
     @PostMapping
     public ResponseEntity<Void> publishPost(@RequestBody PostDTO postDTO) {
         postService.publishPost(postDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable int id) {
         postService.deletePostById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{/id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updatePost(@PathVariable int id, @RequestBody String content) {
         postService.editPost(id, content);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok().build();
     }
 }

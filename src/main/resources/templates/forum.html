@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форум — Loregard</title>
+  <link rel="stylesheet" th:href="@{/css/forum.css}">
+  <div th:replace="~{fragments/header :: head-css}"></div></head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-canvas">
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- HEADER FRAGMENT -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page">
+
+  <!-- FORUM HEADER -->
+  <div class="forum-header">
+    <div class="breadcrumb">LOREGARD <span>/ ФОРУМ</span></div>
+    <h1 class="forum-title">Форум Loregard</h1>
+    <p class="forum-subtitle">Место где герои делятся историями, тайнами и знаниями</p>
+  </div>
+
+  <!-- CATEGORIES LIST -->
+  <div class="categories">
+
+    <!-- Если категорий нет -->
+    <div th:if="${#lists.isEmpty(categories)}" class="empty-topics">
+      Категории пока не созданы.
+    </div>
+
+    <!-- Цикл по категориям -->
+    <div th:each="category : ${categories}" class="category">
+
+      <div class="category-header">
+        <div class="cat-icon" th:text="${category.icon}">📜</div>
+        <div>
+          <div class="cat-title" th:text="${category.name}">Название категории</div>
+          <div class="cat-desc" th:text="${category.description}">Описание</div>
+        </div>
+        <div class="cat-count">
+          <strong th:text="${category.topicCount}">0</strong>тем
+        </div>
+      </div>
+
+      <!-- Темы в категории -->
+      <div class="topics">
+
+        <div th:if="${#lists.isEmpty(category.topics)}" class="empty-topics">
+          Тем пока нет.
+        </div>
+
+        <a th:each="topic : ${category.topics}"
+           th:href="@{/forum/topic/{id}(id=${topic.id})}"
+           th:classappend="${topic.isPinned} ? 'topic--pinned'"
+           class="topic">
+
+          <div class="topic-left">
+            <div class="topic-icon">
+              <span th:if="${topic.isPinned}">📌</span>
+              <span th:unless="${topic.isPinned}">💬</span>
+            </div>
+            <div>
+              <div th:if="${topic.isPinned}" class="topic-pin">закреплено</div>
+              <div class="topic-title">
+                <span th:text="${topic.title}">Название темы</span>
+                <span th:if="${topic.isClosed}" class="topic-badge topic-badge--closed">ЗАКРЫТО</span>
+              </div>
+              <div class="topic-meta">
+                <span class="topic-author" th:text="${topic.authorName}">Автор</span>
+                <span th:text="${#temporals.format(topic.createdAt, 'd MMM yyyy')}">дата</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="topic-stats">
+            <strong th:text="${topic.postCount}">0</strong>
+            ответов
+          </div>
+
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER FRAGMENT -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+  // Rune particles
+  const runes = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+  const canvas = document.querySelector('.bg-canvas');
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('div');
+    el.className = 'rune-particle';
+    el.textContent = runes[Math.floor(Math.random() * runes.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (12 + Math.random() * 14) + 'px';
+    el.style.animationDuration = (14 + Math.random() * 20) + 's';
+    el.style.animationDelay = (-Math.random() * 30) + 's';
+    canvas.appendChild(el);
+  }
+</script>
+
+</body>
+</html>
