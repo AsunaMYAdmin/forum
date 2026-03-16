@@ -3,7 +3,7 @@ package me.asunamyadmin.forumloregard.category.data;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import me.asunamyadmin.forumloregard.security.Roles;
+import me.asunamyadmin.forumloregard.security.ForumRoles;
 
 @Entity
 @Getter
@@ -22,5 +22,5 @@ public class CategoryEntity {
     Integer sortOrder;
     @Enumerated(EnumType.STRING)
     @Column(name = "min_role")
-    Roles role;
+    ForumRoles role;
 }
