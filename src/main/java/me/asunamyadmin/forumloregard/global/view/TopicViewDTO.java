@@ -6,7 +6,6 @@ public record TopicViewDTO(
         Integer id,
         String title,
         Integer categoryID,
-        Integer authorID,
         Boolean isPinned,
         Boolean isClosed,
         String authorName,

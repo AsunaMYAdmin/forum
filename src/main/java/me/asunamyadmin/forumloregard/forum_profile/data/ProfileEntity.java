@@ -15,10 +15,9 @@ public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(name = "user_id")
-    Integer userID;
     String username;
     String title;
+    @Enumerated(EnumType.STRING)
     @Column(name = "forum_role")
     ForumRoles role;
     @Column(name = "post_count")

@@ -8,7 +8,7 @@ public class PostMapper {
     public PostDTO entityToPostDTO(PostEntity entity) {
         return new PostDTO(
                 entity.getTopicId(),
-                entity.getAuthorId(),
+                entity.getAuthorName(),
                 entity.getContent()
         );
     }

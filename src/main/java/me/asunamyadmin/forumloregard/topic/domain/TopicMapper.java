@@ -9,7 +9,7 @@ public class TopicMapper {
         return new TopicDTO(
                 entity.getTitle(),
                 entity.getCategoryId(),
-                entity.getAuthorId()
+                entity.getAuthorName()
         );
     }
 }

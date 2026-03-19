@@ -15,7 +15,6 @@ public class CategoryEntity {
     Integer id;
     @Column(name = "name")
     String categoryName;
-    @Column()
     String description;
     String icon;
     @Column(name = "sort_order")

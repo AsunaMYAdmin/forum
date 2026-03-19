@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<PostEntity, Integer> {
     List<PostEntity> findAllByTopicId(Integer topicId);
+
+    int countByTopicId(Integer topicId);
 }

@@ -85,7 +85,6 @@
                           method="post"
                           onsubmit="return confirm('Удалить сообщение?')">
                         <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                         <button type="submit" class="post-action post-action--delete">Удалить</button>
                     </form>
                 </div>
@@ -116,12 +115,13 @@
         <h3 class="reply-title">Написать ответ</h3>
         <form th:action="@{/topic/post}" method="post">
             <input type="hidden" name="topicID" th:value="${topic.id}">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            <textarea name="content"
-                      class="reply-textarea"
-                      placeholder="Поделитесь своими мыслями, герой..."
-                      rows="5"
-                      required></textarea>
+            <label>
+<textarea name="content"
+          class="reply-textarea"
+          placeholder="Поделитесь своими мыслями, герой..."
+          rows="5"
+          required></textarea>
+            </label>
             <button type="submit" class="reply-submit">Отправить</button>
         </form>
     </div>

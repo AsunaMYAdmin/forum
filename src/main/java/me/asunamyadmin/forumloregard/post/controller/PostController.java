@@ -31,13 +31,13 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public ResponseEntity<Void> deletePost(@PathVariable int id) {
         postService.deletePostById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}/update")
     public ResponseEntity<Void> updatePost(@PathVariable int id, @RequestBody String content) {
         postService.editPost(id, content);
         return ResponseEntity.ok().build();

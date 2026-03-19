@@ -3,13 +3,15 @@ package me.asunamyadmin.forumloregard.category.controller;
 import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.forumloregard.category.domain.CategoryDTO;
 import me.asunamyadmin.forumloregard.category.domain.CategoryService;
-import org.springframework.http.HttpStatus;
+import me.asunamyadmin.forumloregard.security.ForumRoles;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/category")
 public class CategoryController {
@@ -21,20 +23,27 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
-        categoryService.createCategory(categoryDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public String createCategory(
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String icon,
+            @RequestParam(required = false) Integer sortOrder,
+            @RequestParam(required = false) String minRole,
+            RedirectAttributes redirectAttributes) {
+        categoryService.createCategory(new CategoryDTO(name, description, icon, sortOrder, ForumRoles.valueOf(minRole)));
+        redirectAttributes.addFlashAttribute("successMessage", "Категория успешно создана");
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<CategoryDTO> deleteCategory(@RequestParam Integer id) {
+    @PostMapping("/delete")
+    public String deleteCategory(@RequestParam Integer id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/admin";
     }
 
-    @PatchMapping("/rename")
-    public ResponseEntity<CategoryDTO> renameCategory(@RequestParam Integer id, @RequestParam String newName) {
+    @PostMapping("/rename")
+    public String renameCategory(@RequestParam Integer id, @RequestParam String newName) {
         categoryService.renameCategory(id, newName);
-        return ResponseEntity.ok().build();
+        return "redirect:/admin";
     }
 }

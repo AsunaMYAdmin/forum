@@ -17,8 +17,8 @@ public class TopicEntity {
     String title;
     @Column(name = "category_id")
     Integer categoryId;
-    @Column(name = "author_id")
-    Integer authorId;
+    @Column(name = "author_name")
+    String authorName;
     @Column(name = "created_at")
     LocalDateTime createdAt;
     @Column(name = "is_pinned")

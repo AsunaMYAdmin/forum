@@ -2,8 +2,6 @@
 
 :root {
     --bg: #fdf9f4;
-    --surface: #ffffff;
-    --surface2: #fff8f0;
     --border: #e8ddd0;
     --border2: #f0e8dc;
     --accent: #e07820;
@@ -12,7 +10,7 @@
     --text: #2a1f14;
     --muted: #9a8070;
     --gold: #b8860b;
-    --shadow: rgba(180,120,60,0.12);
+    --shadow: rgba(180,120,60,0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,9 +21,11 @@ body {
     font-family: 'Crimson Pro', Georgia, serif;
     min-height: 100vh;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ═══ ANIMATED BACKGROUND ═══ */
+/* ═══ BACKGROUND ═══ */
 .bg-canvas {
     position: fixed;
     inset: 0;
@@ -38,8 +38,8 @@ body {
     position: absolute;
     inset: 0;
     background-image:
-            linear-gradient(rgba(224,120,32,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(224,120,32,0.04) 1px, transparent 1px);
+            linear-gradient(rgba(224,120,32,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(224,120,32,0.035) 1px, transparent 1px);
     background-size: 60px 60px;
     animation: gridShimmer 8s ease infinite;
 }
@@ -52,43 +52,44 @@ body {
 .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(70px);
+    pointer-events: none;
 }
 
 .orb-1 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(224,120,32,0.12) 0%, transparent 70%);
-    top: -100px; left: -100px;
-    animation: orbFloat 20s linear infinite;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(224,120,32,0.1) 0%, transparent 70%);
+    top: -150px; left: -150px;
+    animation: orbFloat 22s linear infinite;
 }
 
 .orb-2 {
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(184,134,11,0.08) 0%, transparent 70%);
-    top: 40%; right: -80px;
-    animation: orbFloat 25s linear infinite;
-    animation-delay: -10s;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(184,134,11,0.07) 0%, transparent 70%);
+    top: 40%; right: -120px;
+    animation: orbFloat 28s linear infinite;
+    animation-delay: -12s;
 }
 
 .orb-3 {
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(255,160,50,0.07) 0%, transparent 70%);
-    bottom: -150px; left: 30%;
-    animation: orbFloat 30s linear infinite;
-    animation-delay: -15s;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,160,50,0.06) 0%, transparent 70%);
+    bottom: -200px; left: 25%;
+    animation: orbFloat 32s linear infinite;
+    animation-delay: -18s;
 }
 
 @keyframes orbFloat {
     0%   { transform: translate(0, 0) scale(1); }
-    25%  { transform: translate(30px, -40px) scale(1.05); }
-    50%  { transform: translate(-20px, 30px) scale(0.95); }
-    75%  { transform: translate(40px, 20px) scale(1.08); }
+    25%  { transform: translate(25px, -35px) scale(1.04); }
+    50%  { transform: translate(-15px, 25px) scale(0.96); }
+    75%  { transform: translate(35px, 15px) scale(1.06); }
     100% { transform: translate(0, 0) scale(1); }
 }
 
 .rune-particle {
     position: absolute;
-    color: rgba(224,120,32,0.1);
+    color: rgba(224,120,32,0.08);
     animation: runeFloat linear infinite;
     user-select: none;
     pointer-events: none;
@@ -97,7 +98,7 @@ body {
 @keyframes runeFloat {
     0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
     5%   { opacity: 1; }
-    95%  { opacity: 0.5; }
+    95%  { opacity: 0.4; }
     100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
 
@@ -107,76 +108,85 @@ body {
     z-index: 1;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 40px 24px 0;
+    padding: 48px 24px 64px;
+    flex: 1;
+    width: 100%;
 }
 
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ═══ FORUM HEADER ═══ */
 .forum-header {
-    margin-bottom: 40px;
-    animation: fadeUp 0.6s ease both;
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s ease both;
 }
 
 .breadcrumb {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
-    letter-spacing: 2px;
-    margin-bottom: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
 }
 
 .breadcrumb span { color: var(--accent); }
 
 .forum-title {
     font-family: 'Cinzel', serif;
-    font-size: 38px;
+    font-size: 36px;
     font-weight: 700;
     color: var(--text);
     letter-spacing: 1px;
-    margin-bottom: 6px;
+    line-height: 1.2;
+    margin-bottom: 8px;
 }
 
 .forum-subtitle {
     font-size: 16px;
     color: var(--muted);
     font-style: italic;
+    line-height: 1.5;
 }
 
 /* ═══ CATEGORIES ═══ */
-.categories { display: flex; flex-direction: column; gap: 20px; }
+.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
 
 .category {
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.88);
     backdrop-filter: blur(8px);
-    box-shadow: 0 4px 20px var(--shadow);
+    box-shadow: 0 2px 12px var(--shadow);
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
-    animation: fadeUp 0.6s ease both;
+    animation: fadeUp 0.5s ease both;
 }
 
-.category:nth-child(1) { animation-delay: 0.1s; }
-.category:nth-child(2) { animation-delay: 0.2s; }
-.category:nth-child(3) { animation-delay: 0.3s; }
-.category:nth-child(4) { animation-delay: 0.4s; }
+.category:nth-child(1) { animation-delay: 0.05s; }
+.category:nth-child(2) { animation-delay: 0.1s; }
+.category:nth-child(3) { animation-delay: 0.15s; }
+.category:nth-child(4) { animation-delay: 0.2s; }
 
 .category:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(224,120,32,0.18);
+    box-shadow: 0 6px 24px rgba(224,120,32,0.14);
 }
 
 .category-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 24px;
-    background: rgba(255,248,240,0.9);
+    gap: 14px;
+    padding: 16px 24px;
+    background: rgba(255,248,240,0.95);
     border-bottom: 1px solid var(--border);
     position: relative;
-    overflow: hidden;
 }
 
 .category-header::before {
@@ -187,14 +197,17 @@ body {
     background: linear-gradient(to bottom, var(--accent), var(--gold));
 }
 
-.cat-icon { font-size: 22px; }
+.cat-icon { font-size: 20px; flex-shrink: 0; }
+
+.cat-info { flex: 1; min-width: 0; }
 
 .cat-title {
     font-family: 'Cinzel', serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
     letter-spacing: 1px;
+    line-height: 1.3;
 }
 
 .cat-desc {
@@ -202,72 +215,76 @@ body {
     color: var(--muted);
     font-style: italic;
     margin-top: 2px;
+    line-height: 1.4;
 }
 
 .cat-count {
-    margin-left: auto;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     text-align: right;
+    flex-shrink: 0;
 }
 
 .cat-count strong {
     color: var(--accent);
     display: block;
-    font-size: 20px;
+    font-size: 22px;
     font-family: 'Cinzel', serif;
+    line-height: 1;
 }
 
 /* ═══ TOPICS ═══ */
 .topics { display: flex; flex-direction: column; }
 
 .topic {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     padding: 14px 24px;
     border-bottom: 1px solid var(--border2);
-    transition: background 0.2s;
     text-decoration: none;
     color: inherit;
     position: relative;
-    overflow: hidden;
+    transition: background 0.2s;
 }
 
-.topic::before {
+.topic::after {
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 0;
-    background: linear-gradient(90deg, rgba(224,120,32,0.06), transparent);
+    background: linear-gradient(90deg, rgba(224,120,32,0.05), transparent);
     transition: width 0.3s ease;
+    pointer-events: none;
 }
 
-.topic:hover::before { width: 100%; }
+.topic:hover::after { width: 100%; }
 .topic:last-child { border-bottom: none; }
-.topic:hover { background: rgba(255,243,230,0.5); }
-.topic--pinned { background: rgba(255,251,245,0.8); }
+.topic:hover { background: rgba(255,246,235,0.6); }
+.topic--pinned { background: rgba(255,252,246,0.9); }
 
 .topic-left {
     display: flex;
     align-items: center;
     gap: 12px;
-    position: relative;
-    z-index: 1;
+    min-width: 0;
+    flex: 1;
 }
 
 .topic-icon {
-    width: 38px; height: 38px;
+    width: 36px; height: 36px;
     background: var(--accent-light);
     border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     flex-shrink: 0;
     transition: transform 0.2s;
 }
 
-.topic:hover .topic-icon { transform: scale(1.1); }
+.topic:hover .topic-icon { transform: scale(1.08); }
+
+.topic-info { min-width: 0; }
 
 .topic-pin {
     font-family: 'Share Tech Mono', monospace;
@@ -282,14 +299,18 @@ body {
     font-size: 15px;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .topic-meta {
     font-size: 12px;
     color: var(--muted);
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .topic-author { color: var(--accent2); font-weight: 600; }
@@ -299,8 +320,7 @@ body {
     font-size: 12px;
     color: var(--muted);
     white-space: nowrap;
-    position: relative;
-    z-index: 1;
+    flex-shrink: 0;
 }
 
 .topic-stats strong {
@@ -308,16 +328,18 @@ body {
     font-size: 18px;
     font-family: 'Cinzel', serif;
     display: block;
+    line-height: 1;
 }
 
 .topic-badge {
     font-family: 'Share Tech Mono', monospace;
     font-size: 9px;
     letter-spacing: 1px;
-    padding: 2px 8px;
+    padding: 1px 7px;
     border: 1px solid var(--border);
     color: var(--muted);
-    margin-left: 8px;
+    margin-left: 6px;
+    vertical-align: middle;
 }
 
 .topic-badge--closed {
@@ -326,15 +348,24 @@ body {
 }
 
 .empty-topics {
-    padding: 32px 24px;
+    padding: 28px 24px;
     text-align: center;
     font-style: italic;
     color: var(--muted);
     font-size: 14px;
 }
 
-@media (max-width: 700px) {
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+    .page { padding: 32px 16px 48px; }
     .forum-title { font-size: 28px; }
-    .topic { grid-template-columns: 1fr; }
-    .topic-stats { text-align: left; }
+    .topic { flex-wrap: wrap; }
+    .topic-stats { width: 100%; text-align: left; }
+    .topic-stats strong { display: inline; font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+    .forum-title { font-size: 24px; }
+    .category-header { padding: 14px 16px; }
+    .topic { padding: 12px 16px; }
 }

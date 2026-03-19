@@ -25,7 +25,7 @@ public class TopicService {
     @Transactional
     public void createTopic(TopicDTO topicDTO) {
         TopicEntity entity = new TopicEntity();
-        entity.setAuthorId(topicDTO.authorID());
+        entity.setAuthorName(topicDTO.authorName());
         entity.setCategoryId(topicDTO.categoryID());
         entity.setTitle(topicDTO.title());
         topicRepository.save(entity);

@@ -2,7 +2,7 @@ package me.asunamyadmin.forumloregard.post.domain;
 
 public record PostDTO(
         Integer topicID,
-        Integer authorID,
+        String authorName,
         String content
 ) {
 }

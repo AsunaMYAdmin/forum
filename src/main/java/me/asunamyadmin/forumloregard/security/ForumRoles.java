@@ -11,4 +11,5 @@ public enum ForumRoles {
     public SimpleGrantedAuthority getSimpleGrantedAuthority() {
         return new SimpleGrantedAuthority("ROLE_" + this.name());
     }
+
 }

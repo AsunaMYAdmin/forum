@@ -3,7 +3,9 @@ package me.asunamyadmin.forumloregard.category.domain;
 import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.forumloregard.category.data.CategoryEntity;
 import me.asunamyadmin.forumloregard.category.data.CategoryRepository;
+import me.asunamyadmin.forumloregard.category.exception.CategoryIsNotEmptyException;
 import me.asunamyadmin.forumloregard.category.exception.CategoryNotFoundException;
+import me.asunamyadmin.forumloregard.topic.data.TopicRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository repository;
+    private final TopicRepository topics;
     private final CategoryMapper mapper;
 
     public List<CategoryDTO> getAllCategories() {
@@ -35,6 +38,9 @@ public class CategoryService {
 
     @Transactional
     public void deleteCategory(Integer id) {
+        if (!topics.findAllByCategoryId(id).isEmpty()) {
+            throw new CategoryIsNotEmptyException();
+        }
         CategoryEntity entity = repository.findById(id).orElseThrow(CategoryNotFoundException::new);
         repository.delete(entity);
     }

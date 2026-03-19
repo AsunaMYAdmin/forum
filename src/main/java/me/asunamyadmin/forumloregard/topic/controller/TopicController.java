@@ -3,13 +3,15 @@ package me.asunamyadmin.forumloregard.topic.controller;
 import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.forumloregard.topic.domain.TopicDTO;
 import me.asunamyadmin.forumloregard.topic.domain.TopicService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/topic")
 public class TopicController {
@@ -21,39 +23,41 @@ public class TopicController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createTopic(@RequestBody TopicDTO topicDTO) {
-        topicService.createTopic(topicDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public String createTopic(@RequestParam String title, @RequestParam Integer categoryID,
+                              Principal principal,
+                              RedirectAttributes redirectAttributes) {
+        topicService.createTopic(new TopicDTO(title, categoryID, principal.getName()));
+        redirectAttributes.addFlashAttribute("successMessage", "Тема успешно создана");
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTopic(@PathVariable int id) {
+    @PostMapping("/{id}")
+    public String deleteTopic(@PathVariable int id) {
         topicService.deleteTopic(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/admin";
     }
-
-    @PatchMapping("/title/{id}")
-    public ResponseEntity<Void> updateTopicTitle(@PathVariable int id, @RequestBody String newTitle) {
+    @PostMapping("/title/{id}")
+    public String updateTopicTitle(@PathVariable int id, @RequestBody String newTitle) {
         topicService.changeTitle(id, newTitle);
-        return ResponseEntity.ok().build();
+            return "redirect:/admin";
     }
 
-    @PatchMapping("/category/{id}")
-    public ResponseEntity<Void> updateTopicCategory(@PathVariable int id, @RequestParam Integer categoryID) {
+    @PostMapping("/category/{id}")
+    public String updateTopicCategory(@PathVariable int id, @RequestParam Integer categoryID) {
         topicService.changeCategory(id, categoryID);
-        return ResponseEntity.ok().build();
+        return "redirect:/admin";
     }
 
-    @PatchMapping("/{id}/pin")
-    public ResponseEntity<Void> updateTopicPin(@PathVariable int id, @RequestParam boolean pin) {
+    @PostMapping("/{id}/pin")
+    public String updateTopicPin(@PathVariable int id, @RequestParam boolean pin) {
         topicService.setPinCategory(id, pin);
-        return ResponseEntity.ok().build();
+        return "redirect:/admin";
     }
 
-    @PatchMapping("/{id}/close")
-    public ResponseEntity<Void> updateTopicClose(@PathVariable int id, @RequestParam boolean close) {
+    @PostMapping("/{id}/close")
+    public String updateTopicClose(@PathVariable int id, @RequestParam boolean close) {
         topicService.setCloseCategory(id, close);
-        return ResponseEntity.ok().build();
+        return "redirect:/admin";
     }
 
 }

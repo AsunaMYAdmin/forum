@@ -11,6 +11,7 @@ import me.asunamyadmin.forumloregard.post.data.PostEntity;
 import me.asunamyadmin.forumloregard.post.data.PostRepository;
 import me.asunamyadmin.forumloregard.topic.data.TopicEntity;
 import me.asunamyadmin.forumloregard.topic.data.TopicRepository;
+import me.asunamyadmin.forumloregard.topic.exception.TopicNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,11 @@ public class ForumViewService {
                 .toList();
     }
 
+    public TopicViewDTO getTopicByID(int id) {
+        TopicEntity topicEntity = topicRepository.findById(id).orElseThrow(TopicNotFoundException::new);
+        return getTopicViewDTO(topicEntity);
+    }
+
     public List<PostViewDTO> getPostsByTopicId(int topicId, int page, int pageSize) {
         List<PostEntity> posts = postRepository.findAllByTopicId(topicId);
         int beginPageIndex = page * pageSize;
@@ -48,6 +54,11 @@ public class ForumViewService {
                 .limit(pageSize)
                 .map(this::getPostViewDTO)
                 .toList();
+    }
+
+    public int getTotalPages(int topicId, int pageSize) {
+        int total = postRepository.countByTopicId(topicId);
+        return (int) Math.ceil((double) total / pageSize);
     }
 
     private CategoryViewDTO getCategoryViewDTO(CategoryEntity categoryEntity) {
@@ -68,7 +79,7 @@ public class ForumViewService {
     }
 
     private TopicViewDTO getTopicViewDTO(TopicEntity topicEntity) {
-        ProfileEntity profile = profileRepository.findByUserID(topicEntity.getAuthorId())
+        ProfileEntity profile = profileRepository.findByUsername(topicEntity.getAuthorName())
                 .orElseThrow(ProfileNofFoundException::new);
         CategoryEntity category = categoryRepository.findById(topicEntity.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
@@ -77,7 +88,6 @@ public class ForumViewService {
                 topicEntity.getId(),
                 topicEntity.getTitle(),
                 topicEntity.getCategoryId(),
-                topicEntity.getAuthorId(),
                 topicEntity.getIsPinned(),
                 topicEntity.getIsClosed(),
                 profile.getUsername(),
@@ -90,12 +100,11 @@ public class ForumViewService {
 
     //TODO game information
     private PostViewDTO getPostViewDTO(PostEntity postEntity) {
-        ProfileEntity profile = profileRepository.findByUserID(postEntity.getAuthorId())
+        ProfileEntity profile = profileRepository.findByUsername(postEntity.getAuthorName())
                 .orElseThrow(ProfileNofFoundException::new);
         return new PostViewDTO(
                 postEntity.getId(),
                 postEntity.getTopicId(),
-                postEntity.getAuthorId(),
                 postEntity.getContent(),
                 profile.getUsername(),
                 "",

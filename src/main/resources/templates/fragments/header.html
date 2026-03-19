@@ -12,7 +12,7 @@
   <div class="header-inner">
 
     <!-- LOGO -->
-    <a th:href="@{/forum}" class="header-logo">
+    <a th:href="@{/}" class="header-logo">
       <span class="logo-sys">FORUM</span>
       <span class="logo-sep">/</span>
       <span class="logo-lg">LOREGARD</span>
@@ -20,9 +20,9 @@
 
     <!-- NAV -->
     <nav class="header-nav">
-      <a th:href="@{/forum}" class="nav-link">Главная</a>
-      <a th:href="@{/forum/topics}" class="nav-link">Темы</a>
-      <a th:href="@{/forum/topic/rules}" class="nav-link nav-link--rules">
+      <a th:href="@{/}" class="nav-link">Главная</a>
+      <a th:href="@{/topics}" class="nav-link">Темы</a>
+      <a th:href="@{/topic/rules}" class="nav-link nav-link--rules">
         <span class="rules-dot"></span>
         Правила
       </a>
@@ -40,7 +40,7 @@
 
       <!-- Войти / Профиль -->
       <div sec:authorize="isAnonymous()">
-        <a th:href="@{/oauth2/authorization/loregard}" class="btn-login">
+        <a th:href="@{/oauth2/authorization/loregard-site}" class="btn-login">
           <span>⚡</span>
           Войти на форум
         </a>
@@ -51,7 +51,9 @@
           <span th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">A</span>
         </div>
         <span class="user-name" th:text="${#authentication.name}">Игрок</span>
-        <a th:href="@{/logout}" class="btn-logout">Выйти</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+          <button type="submit" class="btn-logout">Выйти</button>
+        </form>
       </div>
     </div>
 

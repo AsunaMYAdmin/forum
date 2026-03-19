@@ -16,8 +16,8 @@ public class PostEntity {
     Integer id;
     @Column(name = "topic_id")
     Integer topicId;
-    @Column(name = "author_id")
-    Integer authorId;
+    @Column(name = "author_name")
+    String authorName;
     @Column(columnDefinition = "TEXT")
     String content;
     @Column(name = "created_at")

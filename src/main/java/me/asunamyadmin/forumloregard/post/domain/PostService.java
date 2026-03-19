@@ -30,7 +30,7 @@ public class PostService {
     @Transactional
     public void publishPost(PostDTO post) {
         PostEntity entity = new PostEntity();
-        entity.setAuthorId(post.authorID());
+        entity.setAuthorName(post.authorName());
         entity.setTopicId(post.topicID());
         entity.setContent(post.content());
         repository.save(entity);
