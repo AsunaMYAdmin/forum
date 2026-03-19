@@ -14,6 +14,7 @@ import me.asunamyadmin.forumloregard.topic.data.TopicRepository;
 import me.asunamyadmin.forumloregard.topic.exception.TopicNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,6 +29,7 @@ public class ForumViewService {
         return categoryRepository.findAll()
                 .stream()
                 .map(this::getCategoryViewDTO)
+                .sorted(Comparator.comparingInt(CategoryViewDTO::sortOrder))
                 .toList();
     }
 
