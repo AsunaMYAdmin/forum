@@ -31,7 +31,11 @@ public class CategoryService {
         entity.setCategoryName(categoryDTO.name());
         entity.setDescription(categoryDTO.description());
         entity.setIcon(categoryDTO.icon());
-        entity.setSortOrder(categoryDTO.sortOrder());
+        if (categoryDTO.sortOrder() == null) {
+            entity.setSortOrder(1);
+        } else {
+            entity.setSortOrder(categoryDTO.sortOrder());
+        }
         entity.setRole(categoryDTO.minRole());
         repository.save(entity);
     }

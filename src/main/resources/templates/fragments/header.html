@@ -11,14 +11,14 @@
 <header th:fragment="header" class="site-header">
   <div class="header-inner">
 
-    <!-- LOGO -->
+    <!-- LOGO (без изменений) -->
     <a th:href="@{/}" class="header-logo">
       <span class="logo-sys">FORUM</span>
       <span class="logo-sep">/</span>
       <span class="logo-lg">LOREGARD</span>
     </a>
 
-    <!-- NAV -->
+    <!-- NAV (без изменений) -->
     <nav class="header-nav">
       <a th:href="@{/}" class="nav-link">Главная</a>
       <a th:href="@{/topics}" class="nav-link">Темы</a>
@@ -30,7 +30,7 @@
 
     <!-- RIGHT -->
     <div class="header-right">
-      <!-- Кнопка на основной сайт -->
+      <!-- Кнопка на основной сайт (без изменений) -->
       <a href="https://loregard.ru" target="_blank" class="btn-main-site">
         <span>LOREGARD</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -38,7 +38,7 @@
         </svg>
       </a>
 
-      <!-- Войти / Профиль -->
+      <!-- Неавторизован -->
       <div sec:authorize="isAnonymous()">
         <a th:href="@{/oauth2/authorization/loregard-site}" class="btn-login">
           <span>⚡</span>
@@ -46,13 +46,27 @@
         </a>
       </div>
 
+      <!-- Авторизован -->
       <div sec:authorize="isAuthenticated()" class="header-user">
         <div class="user-avatar">
           <span th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">A</span>
         </div>
         <span class="user-name" th:text="${#authentication.name}">Игрок</span>
-        <form th:action="@{/logout}" method="post" style="display:inline;">
-          <button type="submit" class="btn-logout">Выйти</button>
+
+        <!-- Кнопка админки (видна только админам) -->
+        <div sec:authorize="hasRole('ADMIN')" class="admin-button-wrapper">
+          <a th:href="@{/admin}" class="btn-admin">
+            <span class="admin-icon">⚔️</span>
+            <span class="admin-text">Админка</span>
+          </a>
+        </div>
+
+        <!-- Кнопка выхода (обновлённый дизайн) -->
+        <form th:action="@{/logout}" method="post" class="logout-form">
+          <button type="submit" class="btn-logout">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Выйти</span>
+          </button>
         </form>
       </div>
     </div>

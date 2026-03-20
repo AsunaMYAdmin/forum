@@ -175,3 +175,141 @@
     .header-nav { display: none; }
     .logo-lg { display: none; }
 }
+
+/* ========== ОБНОВЛЁННЫЙ СТИЛЬ КНОПКИ ВЫХОДА ========== */
+.logout-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #9a8070;
+    background: transparent;
+    border: 1px solid #e8ddd0;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 0; /* Сохраняем квадратный стиль */
+}
+
+.btn-logout:hover {
+    border-color: #c0392b;
+    color: #c0392b;
+    background: rgba(192, 57, 43, 0.02);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.1);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
+.logout-icon {
+    font-size: 14px;
+    opacity: 0.8;
+    transition: transform 0.2s;
+}
+
+.btn-logout:hover .logout-icon {
+    transform: translateX(3px);
+}
+
+.logout-text {
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+/* ========== КНОПКА АДМИНКИ ========== */
+.admin-button-wrapper {
+    margin: 0 5px;
+}
+
+.btn-admin {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #b8860b; /* Золотой цвет */
+    background: rgba(184, 134, 11, 0.05);
+    border: 1px solid #b8860b;
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-admin:hover {
+    color: #d4a017;
+    border-color: #d4a017;
+    background: rgba(184, 134, 11, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
+}
+
+.admin-icon {
+    font-size: 14px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+
+/* ========== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ ========== */
+@media (max-width: 900px) {
+    .header-user {
+        gap: 5px;
+    }
+
+    .admin-text, .logout-text {
+        display: none;
+    }
+
+    .btn-admin, .btn-logout {
+        padding: 6px 10px;
+    }
+
+    .btn-admin:hover .admin-text,
+    .btn-logout:hover .logout-text {
+        display: inline;
+        position: absolute;
+        background: var(--bg);
+        padding: 4px 8px;
+        border: 1px solid;
+        border-radius: 0;
+        font-size: 11px;
+        margin-top: 30px;
+        margin-left: -20px;
+        white-space: nowrap;
+    }
+
+    .btn-logout:hover .logout-text {
+        border-color: #c0392b;
+        color: #c0392b;
+    }
+
+    .btn-admin:hover .admin-text {
+        border-color: #b8860b;
+        color: #b8860b;
+    }
+}
+
+@media (max-width: 700px) {
+    .header-right {
+        gap: 8px;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .btn-admin, .btn-logout {
+        padding: 6px 8px;
+    }
+}

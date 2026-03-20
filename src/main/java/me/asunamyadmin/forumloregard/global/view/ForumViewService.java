@@ -9,9 +9,12 @@ import me.asunamyadmin.forumloregard.forum_profile.data.ProfileRepository;
 import me.asunamyadmin.forumloregard.forum_profile.exception.ProfileNofFoundException;
 import me.asunamyadmin.forumloregard.post.data.PostEntity;
 import me.asunamyadmin.forumloregard.post.data.PostRepository;
+import me.asunamyadmin.forumloregard.security.ForumRoles;
 import me.asunamyadmin.forumloregard.topic.data.TopicEntity;
 import me.asunamyadmin.forumloregard.topic.data.TopicRepository;
 import me.asunamyadmin.forumloregard.topic.exception.TopicNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -26,11 +29,8 @@ public class ForumViewService {
     private final PostRepository postRepository;
 
     public List<CategoryViewDTO> getAllCategoriesWithTopics() {
-        return categoryRepository.findAll()
-                .stream()
-                .map(this::getCategoryViewDTO)
-                .sorted(Comparator.comparingInt(CategoryViewDTO::sortOrder))
-                .toList();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getCategories(authentication);
     }
 
     public List<TopicViewDTO> getAllTopicsWithPosts() {
@@ -99,6 +99,28 @@ public class ForumViewService {
         );
     }
 
+    private List<CategoryViewDTO> getCategories(Authentication authentication) {
+        List<CategoryViewDTO> categoriesForAdmins = categoryRepository.findAll()
+                .stream()
+                .map(this::getCategoryViewDTO)
+                .sorted(Comparator.comparingInt(CategoryViewDTO::sortOrder))
+                .toList();
+        List<CategoryViewDTO> categoriesForNotAdmins = categoriesForAdmins.stream()
+                .filter(category -> category.minRole().equals(ForumRoles.USER))
+                .toList();
+        if (authentication != null
+                && authentication.getPrincipal() != null
+                && !"anonymousUser".equals(authentication.getName())) {
+            ProfileEntity entity = profileRepository.findByUsername(authentication.getName())
+                    .orElseThrow(ProfileNofFoundException::new);
+            if (entity.getRole().equals(ForumRoles.USER)) {
+                return categoriesForNotAdmins;
+            } else {
+                return categoriesForAdmins;
+            }
+        }
+        return categoriesForNotAdmins;
+    }
 
     //TODO game information
     private PostViewDTO getPostViewDTO(PostEntity postEntity) {

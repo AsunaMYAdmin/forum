@@ -19,7 +19,7 @@ public class ForumController {
         return "forum";
     }
 
-    @GetMapping("/topic/{id}")
+    @GetMapping("/forum/topic/{id}")
     public  String topic(Model model, @PathVariable int id, @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("topic", forumViewService.getTopicByID(id));
         model.addAttribute("posts", forumViewService.getPostsByTopicId(id, page, 20));

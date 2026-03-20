@@ -48,13 +48,13 @@ public class TopicController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/{id}/pin")
+    @PostMapping("/pin/{id}")
     public String updateTopicPin(@PathVariable int id, @RequestParam boolean pin) {
         topicService.setPinCategory(id, pin);
         return "redirect:/admin";
     }
 
-    @PostMapping("/{id}/close")
+    @PostMapping("/close/{id}")
     public String updateTopicClose(@PathVariable int id, @RequestParam boolean close) {
         topicService.setCloseCategory(id, close);
         return "redirect:/admin";
