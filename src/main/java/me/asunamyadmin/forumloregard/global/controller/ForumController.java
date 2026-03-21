@@ -39,4 +39,9 @@ public class ForumController {
 
         return "admin";
     }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }

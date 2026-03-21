@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
+
+:root {
+    --bg: #fdf9f4;
+    --border: #e8ddd0;
+    --accent: #e07820;
+    --accent2: #c86010;
+    --accent-light: #fff3e6;
+    --text: #2a1f14;
+    --muted: #9a8070;
+    --gold: #b8860b;
+    --green: #1a6b3c;
+    --green-light: #a9dfbf;
+    --shadow: rgba(180,120,60,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ═══ BACKGROUND ═══ */
+.bg-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+.bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+            linear-gradient(rgba(224,120,32,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(224,120,32,0.035) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShimmer 8s ease infinite;
+}
+
+@keyframes gridShimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+.orb { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+.orb-1 { width:500px;height:500px;background:radial-gradient(circle,rgba(224,120,32,0.1) 0%,transparent 70%);top:-150px;left:-150px;animation:orbFloat 22s linear infinite; }
+.orb-2 { width:350px;height:350px;background:radial-gradient(circle,rgba(184,134,11,0.07) 0%,transparent 70%);top:40%;right:-120px;animation:orbFloat 28s linear infinite;animation-delay:-12s; }
+.orb-3 { width:600px;height:600px;background:radial-gradient(circle,rgba(255,160,50,0.05) 0%,transparent 70%);bottom:-200px;left:25%;animation:orbFloat 32s linear infinite;animation-delay:-18s; }
+
+@keyframes orbFloat {
+    0%{transform:translate(0,0) scale(1)}
+    25%{transform:translate(25px,-35px) scale(1.04)}
+    50%{transform:translate(-15px,25px) scale(0.96)}
+    75%{transform:translate(35px,15px) scale(1.06)}
+    100%{transform:translate(0,0) scale(1)}
+}
+
+.rune-particle {
+    position: absolute;
+    color: rgba(224,120,32,0.15);
+    text-shadow: 0 0 8px rgba(224,120,32,0.2);
+    animation: runeFloat linear infinite;
+    user-select: none;
+    pointer-events: none;
+}
+
+@keyframes runeFloat {
+    0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+    5%{opacity:1}
+    95%{opacity:0.4}
+    100%{transform:translateY(-100px) rotate(360deg);opacity:0}
+}
+
+/* ═══ PAGE ═══ */
+.page {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    flex: 1;
+    width: 100%;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ HERO ═══ */
+.hero {
+    text-align: center;
+    margin-bottom: 72px;
+    animation: fadeUp 0.6s ease both;
+    position: relative;
+}
+
+.hero-rune {
+    font-size: 48px;
+    color: rgba(224,120,32,0.2);
+    margin-bottom: 16px;
+    animation: runeGlow 3s ease infinite;
+}
+
+@keyframes runeGlow {
+    0%,100% { color: rgba(224,120,32,0.2); }
+    50% { color: rgba(224,120,32,0.4); }
+}
+
+.breadcrumb {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.breadcrumb span { color: var(--accent); }
+
+.hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+.hero-title em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 32px;
+}
+
+.hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+.divider-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.divider-rune {
+    color: var(--accent);
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+/* ═══ SECTION LABEL ═══ */
+.section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ═══ ABOUT ═══ */
+.about-section {
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+    animation-delay: 0.1s;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    backdrop-filter: blur(8px);
+}
+
+.about-text p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text);
+}
+
+/* ═══ TEAM ═══ */
+.team-section {
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+    animation-delay: 0.2s;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.team-card {
+    position: relative;
+    background: rgba(255,255,255,0.85);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    padding: 32px 28px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(224,120,32,0.15);
+}
+
+.team-card--admin { border-top: 3px solid var(--accent); }
+.team-card--gm { border-top: 3px solid var(--green); }
+
+.card-glow {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(224,120,32,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.card-glow--gm {
+    background: radial-gradient(circle, rgba(26,107,60,0.08) 0%, transparent 70%);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.card-rune {
+    font-size: 28px;
+    color: rgba(224,120,32,0.3);
+}
+.card-rune--gm { color: rgba(26,107,60,0.3); }
+
+.role-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+}
+.role-badge--admin {
+    background: linear-gradient(135deg, #e07820, #f5a623, #c86010);
+    background-size: 200%;
+    color: white;
+    animation: systemGlow 2s ease infinite;
+}
+.role-badge--gm {
+    background: linear-gradient(135deg, #1a6b3c, #145a32);
+    color: var(--green-light);
+}
+
+@keyframes systemGlow {
+    0%,100% { box-shadow: 0 0 8px rgba(224,120,32,0.4); background-position: 0; }
+    50% { box-shadow: 0 0 16px rgba(255,160,30,0.7); background-position: 100%; }
+}
+
+.card-avatar {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--accent-light), #ffe8cc);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    position: relative;
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.card-avatar--gm {
+    background: linear-gradient(135deg, #e8f5ee, #c8e6d4);
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.avatar-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(224,120,32,0.3);
+    animation: ringPulse 2s ease infinite;
+}
+.avatar-ring--gm {
+    border-color: rgba(26,107,60,0.3);
+}
+
+@keyframes ringPulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.5; }
+}
+
+.card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.card-title-text {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.card-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin-bottom: 16px;
+    opacity: 0.4;
+}
+.card-divider--gm {
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.stat { text-align: center; }
+.stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.stat-value {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 600;
+}
+.stat-value--online { color: #27ae60; }
+.stat-value--unknown { color: var(--muted); }
+
+/* ═══ RULES ═══ */
+.rules-section {
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+    animation-delay: 0.3s;
+}
+
+.rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.rule-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+}
+.rule-item:hover { background: var(--accent-light); }
+
+.rule-num {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.5;
+    min-width: 28px;
+}
+
+.rule-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+}
+
+/* ═══ FOUNDED ═══ */
+.founded {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeUp 0.6s ease both;
+    animation-delay: 0.4s;
+}
+.founded-rune { color: var(--accent); opacity: 0.5; }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 700px) {
+    .hero-title { font-size: 36px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .rules-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О форуме — Loregard</title>
+  <link rel="stylesheet" th:href="@{/css/about.css}">
+  <div th:replace="~{fragments/header :: head-css}"></div>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-rune">ᛚ</div>
+    <div class="breadcrumb">LOREGARD <span>/ О ФОРУМЕ</span></div>
+    <h1 class="hero-title">Форум <em>Loregard</em></h1>
+    <p class="hero-subtitle">Место где герои делятся историями, тайнами и знаниями</p>
+    <div class="hero-divider">
+      <span class="divider-rune">ᚠ</span>
+      <div class="divider-line"></div>
+      <span class="divider-rune">ᛟ</span>
+    </div>
+  </div>
+
+  <!-- ABOUT TEXT -->
+  <div class="about-section">
+    <div class="section-label">О проекте</div>
+    <div class="about-text">
+      <p>Loregard — это ролевое сообщество, объединяющее игроков, авантюристов и хранителей историй. Форум создан как пространство для общения, обмена опытом и совместного строительства игрового мира.</p>
+      <p>Здесь каждый герой может найти своё место: обсудить тактику, поделиться легендой своего персонажа, вступить в гильдию или просто поговорить с единомышленниками.</p>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="team-section">
+    <div class="section-label">Команда</div>
+    <div class="team-grid">
+
+      <!-- ADMIN CARD -->
+      <div class="team-card team-card--admin">
+        <div class="card-glow"></div>
+        <div class="card-top">
+          <div class="card-rune">ᚨ</div>
+          <div class="role-badge role-badge--admin">SYSTEM</div>
+        </div>
+        <div class="card-avatar">
+          <span>A</span>
+          <div class="avatar-ring"></div>
+        </div>
+        <div class="card-name">Asuna's Knight</div>
+        <div class="card-title-text">Основатель · Хранитель Форума</div>
+        <div class="card-divider"></div>
+        <div class="card-desc">Создатель и администратор проекта Loregard. Хранит законы форума и следит за порядком в мире героев.</div>
+        <div class="card-stats">
+          <div class="stat">
+            <div class="stat-label">Роль</div>
+            <div class="stat-value">Основатель</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Статус</div>
+            <div class="stat-value stat-value--online">● Онлайн</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOD CARD -->
+      <div class="team-card team-card--gm">
+        <div class="card-glow card-glow--gm"></div>
+        <div class="card-top">
+          <div class="card-rune card-rune--gm">ᚷ</div>
+          <div class="role-badge role-badge--gm">GAME MASTER</div>
+        </div>
+        <div class="card-avatar card-avatar--gm">
+          <span>?</span>
+          <div class="avatar-ring avatar-ring--gm"></div>
+        </div>
+        <div class="card-name">Имя Главного Модератора</div>
+        <div class="card-title-text">Главный Модератор · Страж Правил</div>
+        <div class="card-divider card-divider--gm"></div>
+        <div class="card-desc">Следит за соблюдением правил и атмосферой на форуме. Помогает новым героям освоиться в мире Loregard.</div>
+        <div class="card-stats">
+          <div class="stat">
+            <div class="stat-label">Роль</div>
+            <div class="stat-value">Модератор</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Статус</div>
+            <div class="stat-value stat-value--unknown">● Неизвестно</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RULES BRIEF -->
+  <div class="rules-section">
+    <div class="section-label">Основные правила</div>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-num">I</div>
+        <div class="rule-text">Уважайте других участников форума</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">II</div>
+        <div class="rule-text">Публикуйте материалы в соответствующих разделах</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">III</div>
+        <div class="rule-text">Запрещён спам, флуд и оффтопик</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">IV</div>
+        <div class="rule-text">Решения администрации окончательны</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER INFO -->
+  <div class="founded">
+    <span class="founded-rune">ᛞ</span>
+    <span>Форум основан в 2026 году</span>
+    <span class="founded-rune">ᛞ</span>
+  </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+  const runes = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+  const canvas = document.querySelector('.bg-canvas');
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('div');
+    el.className = 'rune-particle';
+    el.textContent = runes[Math.floor(Math.random() * runes.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (12 + Math.random() * 14) + 'px';
+    el.style.animationDuration = (14 + Math.random() * 20) + 's';
+    el.style.animationDelay = (-Math.random() * 30) + 's';
+    canvas.appendChild(el);
+  }
+</script>
+
+</body>
+</html>
