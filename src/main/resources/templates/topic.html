@@ -65,7 +65,9 @@
                 <div th:if="${post.authorClass != null}" class="post-class" th:text="${post.authorClass}">Класс</div>
                 <div th:if="${post.authorGuild != null}" class="post-guild" th:text="${post.authorGuild}">Гильдия</div>
                 <div th:if="${post.authorTitle != null}" class="post-title-badge" th:text="${post.authorTitle}">Титул</div>
-                <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="post-admin-badge">ADMIN</div>
+                <div th:if="${post.authorRole == 'ADMIN'}" class="post-admin-badge">ADMIN</div>
+                <div th:if="${post.authorRole == 'GAME_MASTER'}" class="post-gm-badge">GAME MASTER</div>
+                <div th:if="${post.authorRole == 'SYSTEM'}" class="post-system-badge">SYSTEM</div>
             </div>
 
             <!-- POST BODY -->

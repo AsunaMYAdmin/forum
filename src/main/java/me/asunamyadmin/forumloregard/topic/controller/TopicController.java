@@ -23,10 +23,10 @@ public class TopicController {
     }
 
     @PostMapping("/create")
-    public String createTopic(@RequestParam String title, @RequestParam Integer categoryID,
+    public String createTopic(@RequestParam String title, @RequestParam Integer categoryID, @RequestParam String content,
                               Principal principal,
                               RedirectAttributes redirectAttributes) {
-        topicService.createTopic(new TopicDTO(title, categoryID, principal.getName()));
+        topicService.createTopic(new TopicDTO(title, categoryID, principal.getName()), content);
         redirectAttributes.addFlashAttribute("successMessage", "Тема успешно создана");
         return "redirect:/admin";
     }

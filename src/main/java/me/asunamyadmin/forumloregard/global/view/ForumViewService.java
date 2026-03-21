@@ -133,6 +133,7 @@ public class ForumViewService {
                 postEntity.getTopicId(),
                 postEntity.getContent(),
                 profile.getUsername(),
+                profile.getRole().name(),
                 "",
                 "",
                 "",

@@ -7,6 +7,7 @@ public record PostViewDTO(
         Integer topicID,
         String content,
         String authorName,
+        String authorRole,
         String authorClass,
         String authorGuild,
         String authorTitle,

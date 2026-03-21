@@ -1,6 +1,8 @@
 package me.asunamyadmin.forumloregard.topic.domain;
 
 import lombok.RequiredArgsConstructor;
+import me.asunamyadmin.forumloregard.post.domain.PostDTO;
+import me.asunamyadmin.forumloregard.post.domain.PostService;
 import me.asunamyadmin.forumloregard.topic.data.TopicEntity;
 import me.asunamyadmin.forumloregard.topic.data.TopicRepository;
 import me.asunamyadmin.forumloregard.topic.exception.TopicNotFoundException;
@@ -14,6 +16,7 @@ import java.util.List;
 public class TopicService {
     private final TopicRepository topicRepository;
     private final TopicMapper topicMapper;
+    private final PostService postService;
 
     public List<TopicDTO>  getAllTopics() {
         return topicRepository.findAll()
@@ -23,12 +26,13 @@ public class TopicService {
     }
 
     @Transactional
-    public void createTopic(TopicDTO topicDTO) {
+    public void createTopic(TopicDTO topicDTO, String firstMessage) {
         TopicEntity entity = new TopicEntity();
         entity.setAuthorName(topicDTO.authorName());
         entity.setCategoryId(topicDTO.categoryID());
         entity.setTitle(topicDTO.title());
         topicRepository.save(entity);
+        postService.publishPost(new PostDTO(entity.getId(), topicDTO.authorName(), firstMessage));
     }
 
     @Transactional

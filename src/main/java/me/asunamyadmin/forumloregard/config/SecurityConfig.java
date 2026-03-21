@@ -34,7 +34,11 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/topics/**", "/rules")
                         .permitAll()
                         .requestMatchers("/admin/**", "/category/**")
-                        .hasAuthority(ForumRoles.ADMIN.getSimpleGrantedAuthority().getAuthority()) // исправлено
+                        .hasAnyAuthority(
+                                ForumRoles.ADMIN.getSimpleGrantedAuthority().getAuthority(),
+                                ForumRoles.GAME_MASTER.getSimpleGrantedAuthority().getAuthority(),
+                                ForumRoles.SYSTEM.getSimpleGrantedAuthority().getAuthority()
+                        )
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

@@ -252,15 +252,38 @@
 }
 
 .post-admin-badge {
-    font-size: 10px;
-    background: #fff3e6;
-    border: 1px solid #e07820;
-    color: #e07820;
-    padding: 2px 8px;
-    margin-top: 2px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    animation: badgePulse 2s ease infinite;
+    background: linear-gradient(135deg, #c0392b, #922b21);
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    margin-top: 6px;
+    display: inline-block;
+}
+
+.post-gm-badge {
+    background: linear-gradient(135deg, #1a6b3c, #145a32);
+    color: #a9dfbf;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    margin-top: 6px;
+    display: inline-block;
+    text-shadow: 0 0 6px rgba(100,220,130,0.4);
+}
+
+.post-system-badge {
+    background: linear-gradient(135deg, #1a2f4a, #0d1f33);
+    color: #85c1e9;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    margin-top: 6px;
+    display: inline-block;
+    text-shadow: 0 0 6px rgba(100,160,255,0.4);
 }
 
 @keyframes badgePulse {
