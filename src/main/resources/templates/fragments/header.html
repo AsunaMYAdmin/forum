@@ -54,7 +54,7 @@
         <span class="user-name" th:text="${#authentication.name}">Игрок</span>
 
         <!-- Кнопка админки (видна только админам) -->
-        <div sec:authorize="hasRole('ADMIN')" class="admin-button-wrapper">
+        <div sec:authorize="hasAnyRole('ADMIN', 'GAME_MASTER', 'SYSTEM')" class="admin-button-wrapper">
           <a th:href="@{/admin}" class="btn-admin">
             <span class="admin-icon">⚔️</span>
             <span class="admin-text">Админка</span>

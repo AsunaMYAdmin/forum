@@ -36,7 +36,18 @@ public class PostController {
     }
 
     @PostMapping("/{id}/delete")
-    public String deletePost(@PathVariable int id, @RequestParam int topicID) {
+    public String deletePost(@PathVariable int id, @RequestParam int topicID,
+                             @AuthenticationPrincipal OAuth2User user) {
+        PostDTO post = postService.getPostById(id);
+        boolean isAdmin = user.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")
+                                || a.getAuthority().equals("ROLE_GAME_MASTER")
+                                || a.getAuthority().equals("ROLE_SYSTEM")
+                        );
+        String username = user.getAttribute("sub");
+        if (!isAdmin && !post.authorName().equals(username)) {
+            return "redirect:/forum/topic/" + topicID;
+        }
         postService.deletePostById(id);
         return "redirect:/forum/topic/" + topicID;
     }

@@ -1,6 +1,7 @@
 package me.asunamyadmin.forumloregard.topic.domain;
 
 import lombok.RequiredArgsConstructor;
+import me.asunamyadmin.forumloregard.post.data.PostRepository;
 import me.asunamyadmin.forumloregard.post.domain.PostDTO;
 import me.asunamyadmin.forumloregard.post.domain.PostService;
 import me.asunamyadmin.forumloregard.topic.data.TopicEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TopicService {
     private final TopicRepository topicRepository;
+    private final PostRepository postRepository;
     private final TopicMapper topicMapper;
     private final PostService postService;
 
@@ -38,6 +40,7 @@ public class TopicService {
     @Transactional
     public void deleteTopic(Integer topicID) {
         TopicEntity topicEntity = topicRepository.findById(topicID).orElseThrow(TopicNotFoundException::new);
+        postRepository.deleteAllByTopicId(topicID);
         topicRepository.delete(topicEntity);
     }
 

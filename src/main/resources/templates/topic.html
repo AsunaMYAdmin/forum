@@ -82,7 +82,8 @@
                 </div>
 
                 <!-- ACTIONS (только для admin) -->
-                <div class="post-footer" sec:authorize="hasRole('ADMIN')">
+                <div class="post-footer"
+                     th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''GAME_MASTER'',''SYSTEM'')') or post.authorName == #authentication.name}">
                     <form th:action="@{/topic/post/{id}/delete(id=${post.id})}"
                           method="post"
                           onsubmit="return confirm('Удалить сообщение?')">
