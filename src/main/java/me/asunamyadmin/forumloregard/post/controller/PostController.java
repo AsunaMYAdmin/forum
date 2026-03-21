@@ -3,13 +3,15 @@ package me.asunamyadmin.forumloregard.post.controller;
 import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.forumloregard.post.domain.PostDTO;
 import me.asunamyadmin.forumloregard.post.domain.PostService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/topic/post")
 public class PostController {
@@ -26,20 +28,22 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> publishPost(@RequestBody PostDTO postDTO) {
-        postService.publishPost(postDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public String publishPost(@RequestParam(required = false) Integer topicID,
+                              @AuthenticationPrincipal OAuth2User authorName,
+                              @RequestParam(required = false) String content) {
+        postService.publishPost(new PostDTO(topicID, authorName.getAttribute("sub"), content));
+        return "redirect:/forum/topic/" + topicID;
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<Void> deletePost(@PathVariable int id) {
+    public String deletePost(@PathVariable int id, @RequestParam int topicID) {
         postService.deletePostById(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/forum/topic/" + topicID;
     }
 
     @PostMapping("/{id}/update")
-    public ResponseEntity<Void> updatePost(@PathVariable int id, @RequestBody String content) {
+    public String updatePost(@PathVariable int id, @RequestBody String content) {
         postService.editPost(id, content);
-        return ResponseEntity.ok().build();
+        return "redirect:/";
     }
 }

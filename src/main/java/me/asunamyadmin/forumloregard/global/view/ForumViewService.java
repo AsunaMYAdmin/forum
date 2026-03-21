@@ -37,6 +37,7 @@ public class ForumViewService {
         return topicRepository.findAll()
                 .stream()
                 .map(this::getTopicViewDTO)
+                .sorted(Comparator.comparing(TopicViewDTO::isPinned).reversed())
                 .toList();
     }
 
@@ -67,6 +68,7 @@ public class ForumViewService {
         List<TopicViewDTO> topics = topicRepository.findAllByCategoryId(categoryEntity.getId())
                 .stream()
                 .map(this::getTopicViewDTO)
+                .sorted(Comparator.comparing(TopicViewDTO::isPinned).reversed())
                 .toList();
         return new CategoryViewDTO(
                 categoryEntity.getId(),

@@ -53,7 +53,8 @@
 
 .rune-particle {
     position: absolute;
-    color: rgba(224,120,32,0.08);
+    color: rgba(224,120,32,0.25);
+    text-shadow: 0 0 8px rgba(224,120,32,0.3);
     animation: runeFloat linear infinite;
     user-select: none;
     pointer-events: none;

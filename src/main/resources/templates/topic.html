@@ -81,10 +81,10 @@
 
                 <!-- ACTIONS (только для admin) -->
                 <div class="post-footer" sec:authorize="hasRole('ADMIN')">
-                    <form th:action="@{/topic/post/{id}(id=${post.id})}"
+                    <form th:action="@{/topic/post/{id}/delete(id=${post.id})}"
                           method="post"
                           onsubmit="return confirm('Удалить сообщение?')">
-                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="topicID" th:value="${topic.id}">
                         <button type="submit" class="post-action post-action--delete">Удалить</button>
                     </form>
                 </div>
